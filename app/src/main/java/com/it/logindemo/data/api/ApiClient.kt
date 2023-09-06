@@ -25,7 +25,6 @@ object ApiClient {
                     .baseUrl(Constant.BASE_URL)
                     .client(mOkHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
             }
             return mRetrofit
