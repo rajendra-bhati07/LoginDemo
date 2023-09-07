@@ -1,36 +1,21 @@
 package com.it.logindemo.utils
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-import android.util.Log
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-
-
+import android.net.NetworkInfo
 object Utilility {
-    fun checkInternetConnection(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-                } else {
-                    TODO("VERSION.SDK_INT < M")
-                }
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
+    private var cm: ConnectivityManager? = null
+    /**
+     * Method for checking network availability
+     */
+    fun isNetworkAvailable(context: Context): Boolean {
+        try {
+            cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkInfo: NetworkInfo = cm!!.getActiveNetworkInfo()!!
+            // if no network is available networkInfo will be null
+            // otherwise check if we are connected
+            if (networkInfo != null && networkInfo.isConnected) return true
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return false
     }

@@ -1,30 +1,25 @@
 package com.it.logindemo.ui
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.it.logindemo.R
-import com.it.logindemo.adapter.ShowDataAdapter
+import com.it.logindemo.adapter.RecyclerDataAdapter
 import com.it.logindemo.databinding.ActivityRecyclerBinding
-import com.it.logindemo.viewmodel.ItemsViewModel
-
-
+import com.it.logindemo.data.viewmodel.ItemsViewModel
 class RecyclerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecyclerBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecyclerBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        // this creates a vertical layout Manager
+        // Creates a vertical layout Manager
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
         // ArrayList of class ItemsViewModel
         val data = ArrayList<ItemsViewModel>()
 
-
         data.add(
             ItemsViewModel(
                 R.drawable.ic_card,
@@ -97,9 +92,8 @@ class RecyclerActivity : AppCompatActivity() {
             )
         )
 
-        // This will pass the ArrayList to our Adapter
-        val adapter = ShowDataAdapter(data)
-
+        // Pass the ArrayList to Adapter
+        val adapter = RecyclerDataAdapter(data)
         // Setting the Adapter with the recyclerview
         binding.recyclerview.adapter = adapter
 
